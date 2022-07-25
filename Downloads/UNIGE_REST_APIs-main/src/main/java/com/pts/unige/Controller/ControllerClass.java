@@ -57,7 +57,7 @@ public class ControllerClass {
 	}
 	
 	@GetMapping("/getUser")
-	public User getUser(String mobile) 
+	public User getUser(@RequestParam String mobile) 
 	{
 		
 		return service.getUser(mobile);
