@@ -339,6 +339,10 @@ public class ServiceData {
 			Product product = getProduct(productName);	
 			
 			product.setFeatures(features);
+			
+			user.getUserProducts().add(product);
+			
+			userRepo.save(user);
 			return true;
 		}catch(Exception e)
 		{

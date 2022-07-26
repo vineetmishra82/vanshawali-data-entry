@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Document(collection = "users")
@@ -25,6 +26,7 @@ public class User {
 	private String email;
 	
 	@Getter
+	@Setter
 	private List<Product> userProducts = new ArrayList<>();
 
 }
