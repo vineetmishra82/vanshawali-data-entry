@@ -311,16 +311,39 @@ public class ServiceData {
 				return user;
 			}
 				
-		}
-		
-		
+		}	
 		
 		return null;
 	}
+	
+	public Product getProduct(String prodName) {
+		
+		for(Product product : productRepo.findAll())
+			
+		{
+			if(product.getProductName().equals(prodName))
+			{
+				return product;
+			}
+				
+		}	
+		
+		return null;
+	}
+	
 
 	public boolean registerProduct(String userMobile, String productName, Map<String, String> features) {
 		
-		log.info(features.toString());
-		return false;
+		try {
+			User user = getUser(userMobile);
+			Product product = getProduct(productName);	
+			
+			product.setFeatures(features);
+			return true;
+		}catch(Exception e)
+		{
+			return false;
+		}	
+		
 	}
 }
