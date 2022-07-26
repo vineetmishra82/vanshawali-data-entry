@@ -301,15 +301,26 @@ public class ServiceData {
 	}
 
 	public User getUser(String mobile) {
-		
+		log.info("User mobile is "+mobile);
 		for(User user : userRepo.findAll())
+			
 		{
+			log.info("Abhi mobile is "+user.getMobile());
 			if(user.getMobile().equals(mobile))
+			{
 				return user;
+			}
+				
 		}
 		
 		
 		
 		return null;
+	}
+
+	public boolean registerProduct(String userMobile, String productName, Map<String, String> features) {
+		
+		log.info(features.toString());
+		return false;
 	}
 }
