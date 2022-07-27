@@ -192,7 +192,15 @@ public class ControllerClass {
 	public List<Product> getUserProduct(String userMobile)
 	{
 		return service.getUserProducts(userMobile);
+		
 	}
 	
+	@PostMapping("/addQuestionCategory")
+	public boolean addQuestionCategory(@RequestParam String prodName,
+			@RequestParam String questionId)
+			
+	{
+		return service.addQuestionCategory(prodName,questionId);
+	}
 }
 

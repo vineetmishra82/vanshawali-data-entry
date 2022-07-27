@@ -1,6 +1,7 @@
 package com.pts.unige.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -331,6 +332,19 @@ public class ServiceData {
 		return null;
 	}
 	
+	public QuestionCategory getQuestionCategory(String questionId)
+	{
+		for(QuestionCategory questionCat : categoriesRepo.findAll())
+		{
+			if(questionCat.getCategoryId().equals(questionId))
+			{
+				return questionCat;
+			}
+		}
+		
+		return null;
+	}
+	
 
 	public boolean registerProduct(String userMobile, String productName, Map<String, String> features) {
 		
@@ -356,5 +370,40 @@ public class ServiceData {
 		User user = getUser(userMobile);
 		
 		return user.getUserProducts();
+	}
+
+	public boolean addQuestionCategory(String prodName, String questionId) {
+		
+		try {
+			Product product = getProduct(prodName);
+			QuestionCategory questionCat = getQuestionCategory(questionId);
+			
+			product.getFeedback().add(new ProductFeedbackQuestion(questionCat, new HashMap<>(), ""));
+			productRepo.save(product);
+			
+			//Updating in all existing user products
+			
+			for(User user : userRepo.findAll())
+			{
+				if(user.getUserProducts().contains(product))
+				{
+					int index = user.getUserProducts().indexOf(product);
+					log.info("Index is "+index);
+					user.getUserProducts().set(index, product);
+					log.info(user.getUserProducts().get(index).toString());
+					userRepo.save(user);
+					break;
+				}
+			}
+			
+			
+			
+			
+			return true;
+		}catch(Exception e)
+		{
+			return false;
+		}		
+		
 	}
 }
