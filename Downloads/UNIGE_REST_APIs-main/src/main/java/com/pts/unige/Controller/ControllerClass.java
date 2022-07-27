@@ -188,6 +188,11 @@ public class ControllerClass {
 		return service.registerProduct(userMobile, productName, features);
 	}
 	
+	@GetMapping("/getUserProducts")
+	public List<Product> getUserProduct(String userMobile)
+	{
+		return service.getUserProducts(userMobile);
+	}
 	
 }
 

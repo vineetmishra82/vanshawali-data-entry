@@ -350,4 +350,11 @@ public class ServiceData {
 		}	
 		
 	}
+	
+	public List<Product> getUserProducts(String userMobile)
+	{
+		User user = getUser(userMobile);
+		
+		return user.getUserProducts();
+	}
 }
