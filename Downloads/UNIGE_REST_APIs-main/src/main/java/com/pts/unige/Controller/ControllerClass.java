@@ -98,7 +98,7 @@ public class ControllerClass {
 	{
 		
 		return service.createProduct(new Product(name,new HashMap<String,String>(),
-				new ArrayList<ProductFeedbackQuestion>()));
+				new ArrayList<ProductFeedbackQuestion>(),true));
 	}
 	
 
@@ -201,6 +201,18 @@ public class ControllerClass {
 			
 	{
 		return service.addQuestionCategory(prodName,questionId);
+	}
+	
+	@GetMapping("/getAllAnswerTypes")
+	public List<AnswerType> getAllAnswerTypes()
+	{
+		return service.getAllAnswerType();
+	}
+	
+	@PostMapping("/addAnswerType")
+	public boolean setAnswerType(String answerType)
+	{
+		return service.setAnswerType(answerType);
 	}
 }
 

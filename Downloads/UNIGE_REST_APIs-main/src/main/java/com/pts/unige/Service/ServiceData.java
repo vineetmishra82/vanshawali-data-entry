@@ -43,6 +43,9 @@ public class ServiceData {
 	@Autowired
 	QuestionCategoryRepo categoriesRepo;
 	
+	@Autowired
+	AnswerTypeRepo answerTypeRepo;
+	
 	boolean opsResult;
 
 	public boolean adminLogin(String userId, String password) {
@@ -154,14 +157,18 @@ public class ServiceData {
 			try {
 				productRepo.deleteById(name);
 				productRepo.save(new Product(newName, value.getFeatures()
-						,new ArrayList<ProductFeedbackQuestion>()));
+						,new ArrayList<ProductFeedbackQuestion>(),true));
+				
+				//Deactivating all other products of same category
+				
+				
+				
+				
 				opsResult = true;
 			} catch (Exception e) {
 				opsResult = false;
 			}
-		}
-
-				, () -> {
+		}, () -> {
 					opsResult = false;
 				});
 
@@ -267,7 +274,7 @@ public class ServiceData {
 
 		try {
 			
-			categoriesRepo.save(new QuestionCategory(id, name));
+			categoriesRepo.save(new QuestionCategory(id, name,false));
 			return true;
 		}catch(Exception e)
 		{
@@ -280,7 +287,7 @@ public class ServiceData {
 
 		try {
 			categoriesRepo.deleteById(oldId);
-			categoriesRepo.save(new QuestionCategory(newId, newName));
+			categoriesRepo.save(new QuestionCategory(newId, newName,false));
 			return true;
 		}catch(Exception e)
 		{
@@ -356,6 +363,20 @@ public class ServiceData {
 			
 			user.getUserProducts().add(product);
 			
+			//Setting product as active
+			product.setActive(true);
+			
+			//setting all other user products of same category as false
+			
+			for(Product otherProduct : user.getUserProducts())
+			{
+				if(!otherProduct.equals(product) && otherProduct.getProductName()
+						.equals(product.getProductName()))
+				{
+					otherProduct.setActive(false);
+				}
+			}
+			
 			userRepo.save(user);
 			return true;
 		}catch(Exception e)
@@ -392,7 +413,7 @@ public class ServiceData {
 					user.getUserProducts().set(index, product);
 					log.info(user.getUserProducts().get(index).toString());
 					userRepo.save(user);
-					break;
+					
 				}
 			}
 			
@@ -405,5 +426,22 @@ public class ServiceData {
 			return false;
 		}		
 		
+	}
+	
+	public List<AnswerType> getAllAnswerType()
+	{
+		return answerTypeRepo.findAll();
+	}
+	
+	public boolean setAnswerType(String answerType)
+	{
+		try {
+			
+			answerTypeRepo.save(new AnswerType(answerType));
+			return true;
+		}catch(Exception e)
+		{
+			return false;
+		}
 	}
 }

@@ -2,23 +2,21 @@ package com.pts.unige.Models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "questionCategories")
+@Document(collection = "answerType")
 @AllArgsConstructor
-public class QuestionCategory {
+public class AnswerType {
 	
 	@Id
 	@Getter
-	private String categoryId;
-	
-	@Getter
-	private String name;
-	
-	@Getter
 	@Setter
-	private boolean isNext;
+	private String answerType;
+
 	
+
 }

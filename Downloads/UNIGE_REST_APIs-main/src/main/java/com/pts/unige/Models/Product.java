@@ -28,4 +28,8 @@ public class Product {
 	@Setter
 	private List<ProductFeedbackQuestion> feedback;
 	
+	@Getter
+	@Setter
+	private boolean isActive;
+	
 }
