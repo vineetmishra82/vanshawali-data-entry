@@ -14,10 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProductFeedbackQuestion  {
 
-	@Getter
-	@Setter
-	private QuestionCategory questionCategory;
-	
+		
 	@Getter
 	@Setter
 	private Map<String,String> questionAndAnswers;

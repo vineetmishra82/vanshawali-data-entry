@@ -157,7 +157,7 @@ public class ServiceData {
 			try {
 				productRepo.deleteById(name);
 				productRepo.save(new Product(newName, value.getFeatures()
-						,new ArrayList<ProductFeedbackQuestion>(),true));
+						,new ArrayList<ProductFeedbackQuestion>(),false));
 				
 				//Deactivating all other products of same category
 				
@@ -274,7 +274,8 @@ public class ServiceData {
 
 		try {
 			
-			categoriesRepo.save(new QuestionCategory(id, name,false));
+			categoriesRepo.save(new QuestionCategory(id, name,false
+					,new ArrayList<ProductFeedbackQuestion>()));
 			return true;
 		}catch(Exception e)
 		{
@@ -287,7 +288,8 @@ public class ServiceData {
 
 		try {
 			categoriesRepo.deleteById(oldId);
-			categoriesRepo.save(new QuestionCategory(newId, newName,false));
+			categoriesRepo.save(new QuestionCategory(newId, newName,false
+					,new ArrayList<ProductFeedbackQuestion>()));
 			return true;
 		}catch(Exception e)
 		{
@@ -397,9 +399,8 @@ public class ServiceData {
 		
 		try {
 			Product product = getProduct(prodName);
-			QuestionCategory questionCat = getQuestionCategory(questionId);
 			
-			product.getFeedback().add(new ProductFeedbackQuestion(questionCat, new HashMap<>(), ""));
+			product.getFeedback().add(new ProductFeedbackQuestion(new HashMap<>(), ""));
 			productRepo.save(product);
 			
 			//Updating in all existing user products
