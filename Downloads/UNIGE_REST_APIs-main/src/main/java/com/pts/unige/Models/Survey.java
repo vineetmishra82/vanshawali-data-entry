@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Document(collection = "questionCategories")
+@Document(collection = "surveys")
 @AllArgsConstructor
-public class QuestionCategory {
+public class Survey {
 	
 	@Id
 	@Getter
@@ -22,6 +22,10 @@ public class QuestionCategory {
 	@Getter
 	@Setter
 	private boolean isNext;
+	
+	@Getter
+	@Setter
+	private boolean isComplete;
 	
 	@Getter
 	@Setter

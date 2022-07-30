@@ -156,8 +156,8 @@ public class ServiceData {
 			
 			try {
 				productRepo.deleteById(name);
-				productRepo.save(new Product(newName, value.getFeatures()
-						,new ArrayList<ProductFeedbackQuestion>(),false));
+				productRepo.save(new Product(newName,new HashMap<String,String>(),
+						new ArrayList<Survey>(),true));
 				
 				//Deactivating all other products of same category
 				
@@ -265,7 +265,7 @@ public class ServiceData {
 		return false;
 	}
 
-	public List<QuestionCategory> getAllCategories() {
+	public List<Survey> getAllCategories() {
 		// TODO Auto-generated method stub
 		return categoriesRepo.findAll();
 	}
@@ -274,7 +274,7 @@ public class ServiceData {
 
 		try {
 			
-			categoriesRepo.save(new QuestionCategory(id, name,false
+			categoriesRepo.save(new Survey(id, name,false,false
 					,new ArrayList<ProductFeedbackQuestion>()));
 			return true;
 		}catch(Exception e)
@@ -288,7 +288,7 @@ public class ServiceData {
 
 		try {
 			categoriesRepo.deleteById(oldId);
-			categoriesRepo.save(new QuestionCategory(newId, newName,false
+			categoriesRepo.save(new Survey(newId, newName,false,false
 					,new ArrayList<ProductFeedbackQuestion>()));
 			return true;
 		}catch(Exception e)
@@ -341,9 +341,9 @@ public class ServiceData {
 		return null;
 	}
 	
-	public QuestionCategory getQuestionCategory(String questionId)
+	public Survey getQuestionCategory(String questionId)
 	{
-		for(QuestionCategory questionCat : categoriesRepo.findAll())
+		for(Survey questionCat : categoriesRepo.findAll())
 		{
 			if(questionCat.getCategoryId().equals(questionId))
 			{
@@ -399,8 +399,9 @@ public class ServiceData {
 		
 		try {
 			Product product = getProduct(prodName);
+			Survey survey = getQuestionCategory(questionId);
 			
-			product.getFeedback().add(new ProductFeedbackQuestion(new HashMap<>(), ""));
+			product.getSurveys().add(survey);
 			productRepo.save(product);
 			
 			//Updating in all existing user products
@@ -428,6 +429,7 @@ public class ServiceData {
 		}		
 		
 	}
+	
 	
 	public List<AnswerType> getAllAnswerType()
 	{

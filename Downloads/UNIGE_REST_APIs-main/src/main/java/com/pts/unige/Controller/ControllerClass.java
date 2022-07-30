@@ -98,7 +98,7 @@ public class ControllerClass {
 	{
 		
 		return service.createProduct(new Product(name,new HashMap<String,String>(),
-				new ArrayList<ProductFeedbackQuestion>(),true));
+				new ArrayList<Survey>(),true));
 	}
 	
 
@@ -154,7 +154,7 @@ public class ControllerClass {
 	}
 
 	@GetMapping("/getAllCategories")
-	public List<QuestionCategory> getAllCategories()
+	public List<Survey> getAllCategories()
 	{
 		return service.getAllCategories();
 	}

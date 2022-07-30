@@ -26,7 +26,7 @@ public class Product {
 	
 	@Getter
 	@Setter
-	private List<ProductFeedbackQuestion> feedback;
+	private List<Survey> surveys;
 	
 	@Getter
 	@Setter
