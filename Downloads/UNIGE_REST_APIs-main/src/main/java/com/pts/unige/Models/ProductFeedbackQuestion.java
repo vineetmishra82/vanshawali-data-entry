@@ -14,10 +14,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProductFeedbackQuestion  {
 
-		
 	@Getter
 	@Setter
-	private Map<String,String> questionAndAnswers;
+	private String question;
+	
+	@Getter
+	@Setter
+	private String answer;
 	
 	
 	@Getter

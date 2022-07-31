@@ -195,12 +195,12 @@ public class ControllerClass {
 		
 	}
 	
-	@PostMapping("/addQuestionCategory")
-	public boolean addQuestionCategory(@RequestParam String prodName,
-			@RequestParam String questionId)
+	@PostMapping("/addSurveyCategory")
+	public boolean addSurveyCategory(@RequestParam String prodName,
+			@RequestParam String surveyId)
 			
 	{
-		return service.addQuestionCategory(prodName,questionId);
+		return service.addSurveyCategory(prodName,surveyId);
 	}
 	
 	@GetMapping("/getAllAnswerTypes")
@@ -213,6 +213,12 @@ public class ControllerClass {
 	public boolean setAnswerType(String answerType)
 	{
 		return service.setAnswerType(answerType);
+	}
+	
+	@PostMapping("/addQuestionToSurvey")
+	public boolean addQuestionToSurvey(String surveyId,String question,String questionType )
+	{
+		return service.addQuestionToSurvey(surveyId,question,questionType);
 	}
 }
 

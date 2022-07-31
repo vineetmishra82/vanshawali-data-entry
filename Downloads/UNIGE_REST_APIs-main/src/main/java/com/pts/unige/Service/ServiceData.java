@@ -395,11 +395,11 @@ public class ServiceData {
 		return user.getUserProducts();
 	}
 
-	public boolean addQuestionCategory(String prodName, String questionId) {
+	public boolean addSurveyCategory(String prodName, String surveyId) {
 		
 		try {
 			Product product = getProduct(prodName);
-			Survey survey = getQuestionCategory(questionId);
+			Survey survey = getQuestionCategory(surveyId);
 			
 			product.getSurveys().add(survey);
 			productRepo.save(product);
@@ -446,5 +446,21 @@ public class ServiceData {
 		{
 			return false;
 		}
+	}
+
+	public boolean addQuestionToSurvey(String surveyId, String question, String questionType) {
+		
+		try {
+			Survey survey = getQuestionCategory(surveyId);
+			
+			survey.getFeedbackQuestion().add(new ProductFeedbackQuestion(question,"",questionType));
+			categoriesRepo.save(survey);
+			return true;
+		}catch(Exception e)
+		{
+			return false;
+		}
+		
+
 	}
 }
