@@ -46,6 +46,9 @@ public class ServiceData {
 	@Autowired
 	AnswerTypeRepo answerTypeRepo;
 	
+	@Autowired
+	SurveySequenceRepo surveySequenceRepo;
+	
 	boolean opsResult;
 
 	public boolean adminLogin(String userId, String password) {
@@ -462,5 +465,18 @@ public class ServiceData {
 		}
 		
 
+	}
+
+	public boolean setSequence(String[] sequence) {
+		
+		surveySequenceRepo.findAll().clear();
+		
+		for (int i=0;i<sequence.length;i++) {
+			
+			surveySequenceRepo.save(new SurveySequence(i,sequence[i]));
+			
+		}
+		
+		return false;
 	}
 }

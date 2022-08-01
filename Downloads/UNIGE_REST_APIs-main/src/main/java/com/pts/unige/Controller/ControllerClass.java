@@ -216,9 +216,14 @@ public class ControllerClass {
 	}
 	
 	@PostMapping("/addQuestionToSurvey")
-	public boolean addQuestionToSurvey(String surveyId,String question,String questionType )
+	public boolean addQuestionToSurvey(@RequestParam String surveyId,@RequestParam String question,@RequestParam String questionType )
 	{
 		return service.addQuestionToSurvey(surveyId,question,questionType);
+	}
+	
+	@PostMapping("/setSequence")
+	public boolean setSequence(@RequestBody String[] sequence) {
+		return service.setSequence(sequence);
 	}
 }
 
