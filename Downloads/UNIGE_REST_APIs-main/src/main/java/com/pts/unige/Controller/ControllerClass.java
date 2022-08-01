@@ -25,14 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ControllerClass {
-	
-	Logger log = (Logger) LoggerFactory.getLogger(ControllerClass.class);
+
 	@Autowired
 	ServiceData service;
 	
 	
 	public ControllerClass(ServiceData service) {
 		this.service = service;
+	
 	}
 	
 	
@@ -156,6 +156,8 @@ public class ControllerClass {
 	@GetMapping("/getAllCategories")
 	public List<Survey> getAllCategories()
 	{
+		log.warn("warn message");
+		log.info("Getting categories");
 		return service.getAllCategories();
 	}
 	
@@ -223,6 +225,8 @@ public class ControllerClass {
 	
 	@PostMapping("/setSequence")
 	public boolean setSequence(@RequestBody String[] sequence) {
+		log.info("in set sequqnce");
+		
 		return service.setSequence(sequence);
 	}
 }

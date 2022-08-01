@@ -469,6 +469,7 @@ public class ServiceData {
 
 	public boolean setSequence(String[] sequence) {
 		
+		log.info("here");
 		surveySequenceRepo.findAll().clear();
 		try {
 			for (int i=0;i<sequence.length;i++) {
