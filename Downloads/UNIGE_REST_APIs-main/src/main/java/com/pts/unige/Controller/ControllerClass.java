@@ -87,7 +87,8 @@ public class ControllerClass {
 	@GetMapping("/getAllProducts")
 	public List<Product> getProducts() 
 	{
-		
+		log.warn("warn message");
+		log.info("Getting products");
 		return service.getAllProducts();
 	}
 	

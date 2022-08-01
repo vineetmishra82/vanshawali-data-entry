@@ -470,7 +470,8 @@ public class ServiceData {
 	public boolean setSequence(String[] sequence) {
 		
 		log.info("here");
-		surveySequenceRepo.findAll().clear();
+		surveySequenceRepo.deleteAll();
+		log.info(String.valueOf(sequence.length));
 		try {
 			for (int i=0;i<sequence.length;i++) {
 				
@@ -480,6 +481,7 @@ public class ServiceData {
 			return true;
 		}catch(Exception e)
 		{
+			log.info(e.getMessage());
 			return false;
 		}
 		
