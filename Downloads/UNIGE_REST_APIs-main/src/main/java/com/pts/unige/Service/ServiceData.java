@@ -470,13 +470,19 @@ public class ServiceData {
 	public boolean setSequence(String[] sequence) {
 		
 		surveySequenceRepo.findAll().clear();
-		
-		for (int i=0;i<sequence.length;i++) {
-			
-			surveySequenceRepo.save(new SurveySequence(i,sequence[i]));
-			
+		try {
+			for (int i=0;i<sequence.length;i++) {
+				
+				surveySequenceRepo.save(new SurveySequence(i,sequence[i]));
+				
+			}
+			return true;
+		}catch(Exception e)
+		{
+			return false;
 		}
 		
-		return false;
+		
+	
 	}
 }
