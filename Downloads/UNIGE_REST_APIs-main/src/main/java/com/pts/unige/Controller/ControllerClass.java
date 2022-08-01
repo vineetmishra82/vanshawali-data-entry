@@ -230,5 +230,12 @@ public class ControllerClass {
 		
 		return service.setSequence(sequence);
 	}
+	
+	@GetMapping("/getQuestionsListFromSurveyId")
+	public List<ProductFeedbackQuestion> getQuestionsListFromSurveyId(String surveyId)
+	{
+		return service.getQuestionsListFromSurveyId(surveyId);
+	}
+	
 }
 

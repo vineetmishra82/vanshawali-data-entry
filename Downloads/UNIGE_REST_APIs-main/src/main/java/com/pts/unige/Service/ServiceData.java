@@ -366,6 +366,26 @@ public class ServiceData {
 			
 			product.setFeatures(features);
 			
+			//Activating the first survey as Active
+			List<SurveySequence> surveySequences = surveySequenceRepo.findAll();
+			List<Survey> surveys = product.getSurveys();
+			
+			for(int i=0; i<surveySequences.size();i++)
+			{
+				Survey survey = getQuestionCategory(surveySequences.get(i).getSurveyIdString());
+				
+				if(surveys.contains(survey))
+				{
+					int index = surveys.indexOf(survey);
+					product.getSurveys().get(index).setNext(true);					
+				}
+				else {
+					int index = surveys.indexOf(survey);
+					product.getSurveys().get(index).setNext(false);
+				}
+			}		
+			
+			
 			user.getUserProducts().add(product);
 			
 			//Setting product as active
@@ -383,6 +403,7 @@ public class ServiceData {
 			}
 			
 			userRepo.save(user);
+			
 			return true;
 		}catch(Exception e)
 		{
@@ -487,5 +508,13 @@ public class ServiceData {
 		
 		
 	
+	}
+
+	public List<ProductFeedbackQuestion> getQuestionsListFromSurveyId(String surveyId) {
+		
+		Survey survey = getQuestionCategory(surveyId);
+		
+		
+		return survey.getFeedbackQuestion();
 	}
 }
