@@ -1,5 +1,6 @@
 package com.pts.unige.Controller;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,9 +40,19 @@ public class ControllerClass {
 	
 	@GetMapping("/")
 	public String getHome() {
+		
+		Path directory = null;
+		Path lockedFile = writeString(directory.resolve("locked.txt"), "locked");		
+		lockedFile.toFile().setReadable(false);
 		return "Its working !!";
 	}
 	
+
+	private Path writeString(Path resolve, String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@GetMapping("/adminLogin")
 	public boolean adminLoginCheck(@RequestParam String userId,String password) 
@@ -206,18 +218,7 @@ public class ControllerClass {
 		return service.addSurveyCategory(prodName,surveyId);
 	}
 	
-	@GetMapping("/getAllAnswerTypes")
-	public List<AnswerType> getAllAnswerTypes()
-	{
-		return service.getAllAnswerType();
-	}
-	
-	@PostMapping("/addAnswerType")
-	public boolean setAnswerType(String answerType)
-	{
-		return service.setAnswerType(answerType);
-	}
-	
+		
 	@PostMapping("/addQuestionToSurvey")
 	public boolean addQuestionToSurvey(@RequestParam String surveyId,@RequestParam String question,@RequestParam String questionType )
 	{
@@ -237,5 +238,54 @@ public class ControllerClass {
 		return service.getQuestionsListFromSurveyId(surveyId);
 	}
 	
+	@PostMapping("/editQuestionListFromSurveyId")
+	public boolean editQuestionListFromSurveyId(@RequestBody ProductFeedbackQuestion oldPfq,
+			@RequestParam String surveyId
+			,@RequestParam String question,
+			@RequestParam String answerType)
+	{
+		ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answerType);
+		
+		log.info(oldPfq.toString()+"-"+newPfq);
+		
+		return service.editQuestionListFromSurveyId(surveyId,oldPfq,newPfq);
+	}
+	
+	@DeleteMapping("/deleteQuestionListFromSurveyId")
+	public boolean deleteQuestionListFromSurveyId(@RequestParam String surveyId,
+			@RequestParam String question,
+			@RequestParam String answerType)
+	{
+ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answerType);
+		
+		return service.deleteQuestionListFromSurveyId(surveyId,newPfq);
+	}
+	
+	//AnswerType CRUD
+	
+	@GetMapping("/getAllAnswerTypes")
+	public List<AnswerType> getAllAnswerTypes()
+	{
+		return service.getAllAnswerType();
+	}
+	
+	@PostMapping("/addAnswerType")
+	public boolean setAnswerType(String answerType)
+	{
+		return service.setAnswerType(answerType);
+	}
+	
+	@PostMapping("/editAnswerType")
+	public boolean editAnswerType(@RequestParam String oldAnswerType,@RequestParam String newAnswerType)
+	{
+		return service.editAnswerType(oldAnswerType,newAnswerType);
+	}
+	
+	@DeleteMapping("/deleteAnswerType")
+	public boolean deleteAnswerType(String answerType)
+	{
+		
+		return service.deleteAnswerType(answerType);
+	}
 }
 

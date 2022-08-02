@@ -517,4 +517,101 @@ public class ServiceData {
 		
 		return survey.getFeedbackQuestion();
 	}
+
+	
+	public boolean editQuestionListFromSurveyId(String surveyId,
+			ProductFeedbackQuestion oldPfq, ProductFeedbackQuestion newPfq) {
+		
+		try {
+			Survey survey = getQuestionCategory(surveyId);
+			
+			int index = -1;
+			for (ProductFeedbackQuestion prodFeed : survey.getFeedbackQuestion()) {
+				
+				log.info("prodFeed - "+prodFeed.toString());
+				log.info("oldPfq - "+oldPfq.toString());
+				
+				if(prodFeed.equals(oldPfq))
+				{
+					index = survey.getFeedbackQuestion().indexOf(oldPfq);
+					break;
+				}
+				
+			}
+			
+			if(index>-1)
+			{
+				survey.getFeedbackQuestion().remove(index);
+				survey.getFeedbackQuestion().add(newPfq);				
+			}
+			else {
+				return false;
+			}
+			
+			categoriesRepo.save(survey);
+			return true;
+			
+		}catch(Exception e)
+		{		
+		return false;
+		}
+		
+	}
+
+	public boolean deleteQuestionListFromSurveyId(String surveyId, ProductFeedbackQuestion newPfq) {
+		try {
+			Survey survey = getQuestionCategory(surveyId);
+			int index =-1;
+			if(survey.getFeedbackQuestion().contains(newPfq))
+			{
+				index = survey.getFeedbackQuestion().indexOf(newPfq);
+				survey.getFeedbackQuestion().remove(index);
+						
+			}
+			
+			if(index>-1)
+			{
+				categoriesRepo.save(survey);
+				return true;
+			}else {
+				return false;
+			}
+			
+			
+			
+		}catch(Exception e)
+		{		
+		return false;
+		}
+	}
+
+	public boolean editAnswerType(String oldAnswerType, String newAnswerType) {
+	
+		try {
+			answerTypeRepo.deleteById(oldAnswerType);
+			answerTypeRepo.save(new AnswerType(newAnswerType));
+			
+			return true;
+			
+		}catch(Exception e)
+		{	
+		return false;
+		}
+	}
+
+	public boolean deleteAnswerType(String answerType) {
+		try {
+			answerTypeRepo.deleteById(answerType);
+			
+			
+			return true;
+			
+		}catch(Exception e)
+		{	
+		return false;
+		}
+	}
+	
 }
+
+	
