@@ -374,12 +374,12 @@ public class ServiceData {
 			{
 				Survey survey = getQuestionCategory(surveySequences.get(i).getSurveyIdString());
 				
-				if(surveys.contains(survey))
+				if(surveys.contains(survey) && product.getSurveys().contains(survey))
 				{
 					int index = surveys.indexOf(survey);
 					product.getSurveys().get(index).setNext(true);					
 				}
-				else {
+				else if(product.getSurveys().contains(survey)){
 					int index = surveys.indexOf(survey);
 					product.getSurveys().get(index).setNext(false);
 				}
@@ -401,12 +401,13 @@ public class ServiceData {
 					otherProduct.setActive(false);
 				}
 			}
-			
+			log.info(userMobile.toString());
 			userRepo.save(user);
 			
 			return true;
 		}catch(Exception e)
 		{
+			log.info(e.getMessage());
 			return false;
 		}	
 		
@@ -424,8 +425,18 @@ public class ServiceData {
 		try {
 			Product product = getProduct(prodName);
 			Survey survey = getQuestionCategory(surveyId);
+			boolean isfound = false;
+			for (Survey surveyInProduct : product.getSurveys()) {
+				
+				if(surveyInProduct.getCategoryId().equals(survey.getCategoryId()))
+				{
+					isfound=true;
+					break;
+				}
+				
+			}
 			
-			if(!product.getSurveys().contains(survey))
+			if(!isfound)
 			{
 				product.getSurveys().add(survey);
 				productRepo.save(product);
