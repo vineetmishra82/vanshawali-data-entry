@@ -425,8 +425,12 @@ public class ServiceData {
 			Product product = getProduct(prodName);
 			Survey survey = getQuestionCategory(surveyId);
 			
-			product.getSurveys().add(survey);
-			productRepo.save(product);
+			if(!product.getSurveys().contains(survey))
+			{
+				product.getSurveys().add(survey);
+				productRepo.save(product);
+			}
+			
 			
 			//Updating in all existing user products
 			
@@ -441,8 +445,7 @@ public class ServiceData {
 					userRepo.save(user);
 					
 				}
-			}
-			
+			}		
 			
 			
 			

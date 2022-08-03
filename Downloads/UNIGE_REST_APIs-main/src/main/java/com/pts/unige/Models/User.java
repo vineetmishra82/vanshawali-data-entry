@@ -9,9 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Document(collection = "users")
+@ToString
 @AllArgsConstructor
 public class User {
 	
@@ -28,5 +30,7 @@ public class User {
 	@Getter
 	@Setter
 	private List<Product> userProducts = new ArrayList<>();
+	
+	
 
 }

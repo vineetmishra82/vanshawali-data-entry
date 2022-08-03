@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "**", allowedHeaders = "**")
 public class ControllerClass {
 
 	@Autowired
@@ -109,8 +109,12 @@ public class ControllerClass {
 	@PostMapping("/createProduct")
 	public boolean createProduct(@RequestParam String name) 
 	{
+		Map<String, String> features = new HashMap<>();
 		
-		return service.createProduct(new Product(name,new HashMap<String,String>(),
+		features.put("Purchase Date", "");
+		features.put("Brand", "");
+		
+		return service.createProduct(new Product(name,features,
 				new ArrayList<Survey>(),true));
 	}
 	
