@@ -417,10 +417,17 @@ public class ServiceData {
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(regDate);
 					
+					
+					
 					calendar.add(Calendar.DATE, (int)surveySequence.getDaysToActivate());
 					
+										
 					survey.setActivationDate(calendar.getTime());
 				
+					if(regDate.compareTo(survey.getActivationDate())<=0)
+					{
+						survey.setNext(true);
+					}
 				}
 			}
 			
