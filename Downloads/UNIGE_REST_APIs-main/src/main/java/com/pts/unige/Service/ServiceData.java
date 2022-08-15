@@ -423,8 +423,9 @@ public class ServiceData {
 					
 										
 					survey.setActivationDate(calendar.getTime());
+					
 				
-					if(regDate.compareTo(survey.getActivationDate())<=0)
+					if(regDate.compareTo(survey.getActivationDate())==0)
 					{
 						survey.setNext(true);
 					}
