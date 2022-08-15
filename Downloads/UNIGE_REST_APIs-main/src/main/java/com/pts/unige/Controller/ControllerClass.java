@@ -115,7 +115,7 @@ public class ControllerClass {
 		features.put("Brand", "");
 		
 		return service.createProduct(new Product(name,features,
-				new ArrayList<Survey>(),true));
+				new ArrayList<Survey>(),true,null));
 	}
 	
 
@@ -178,23 +178,24 @@ public class ControllerClass {
 		return service.getAllCategories();
 	}
 	
-	@PostMapping("/createNewCategory")
-	public boolean createNewCategory(@RequestParam String id, String name)
+	@PostMapping("/createNewSurvey")
+	public boolean createNewSurvey(@RequestParam String id, @RequestParam String name,
+			@RequestParam boolean isDefectSurvey)
 	{
-		return service.createNewCategory(id,name);
+		return service.createNewSurvey(id,name,isDefectSurvey);
 	}
 	
-	@PostMapping("/updateCategory")
-	public boolean updateCategory(@RequestParam String oldId,
+	@PostMapping("/updateSurvey")
+	public boolean updateSurvey(@RequestParam String oldId,
 			String newId,String newName)
 	{
-		return service.updateCategory(oldId, newId, newName);
+		return service.updateSurvey(oldId, newId, newName);
 	}
 	
-	@DeleteMapping("/deleteCategory")
-	public boolean deleteCategory(String id)
+	@DeleteMapping("/deleteSurvey")
+	public boolean deleteSurvey(String id)
 	{
-		return service.deleteCategory(id);
+		return service.deleteSurvey(id);
 	}
 
 	//User-Product Interactions
@@ -214,12 +215,12 @@ public class ControllerClass {
 		
 	}
 	
-	@PostMapping("/addSurveyCategory")
-	public boolean addSurveyCategory(@RequestParam String prodName,
+	@PostMapping("/addSurvey")
+	public boolean addSurveySurvey(@RequestParam String prodName,
 			@RequestParam String surveyId)
 			
 	{
-		return service.addSurveyCategory(prodName,surveyId);
+		return service.addSurveySurvey(prodName,surveyId);
 	}
 	
 		
@@ -230,10 +231,12 @@ public class ControllerClass {
 	}
 	
 	@PostMapping("/setSequence")
-	public boolean setSequence(@RequestBody String[] sequence) {
+	public boolean setSequence(@RequestBody String sequence) {
 		log.info("in set sequqnce");
+		log.info("Seq is "+sequence.toString());
 		
 		return service.setSequence(sequence);
+		
 	}
 	
 	@GetMapping("/getQuestionsListFromSurveyId")

@@ -1,5 +1,6 @@
 package com.pts.unige.Models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,5 +34,9 @@ public class Product {
 	@Getter
 	@Setter
 	private boolean isActive;
+	
+	@Getter
+	@Setter
+	private Date registrationDate;
 	
 }

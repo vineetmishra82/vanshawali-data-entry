@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.pts.unige.Models.Survey;
 
-public interface QuestionCategoryRepo extends MongoRepository<Survey, String> {
+public interface SurveyRepo extends MongoRepository<Survey, String> {
 
 }

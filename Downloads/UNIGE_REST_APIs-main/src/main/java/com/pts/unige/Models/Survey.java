@@ -1,20 +1,25 @@
 package com.pts.unige.Models;
 
+
 import java.util.List;
+import java.util.Date;
+
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Document(collection = "surveys")
+@ToString
 @AllArgsConstructor
 public class Survey {
 	
 	@Id
 	@Getter
-	private String categoryId;
+	private String surveyId;
 	
 	@Getter
 	private String name;
@@ -28,6 +33,14 @@ public class Survey {
 	private boolean isComplete;
 	
 	@Getter
+	private boolean isDefectSurvey;
+	
+	@Getter
 	@Setter
 	private List<ProductFeedbackQuestion> feedbackQuestion;
+
+	@Getter
+	@Setter
+	private Date activationDate;
+	
 }

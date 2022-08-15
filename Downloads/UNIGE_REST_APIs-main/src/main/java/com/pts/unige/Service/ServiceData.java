@@ -1,23 +1,22 @@
 package com.pts.unige.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.client.result.UpdateResult;
 import com.pts.unige.Models.*;
 import com.pts.unige.Repositories.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +40,7 @@ public class ServiceData {
 	MongoTemplate mongoTemplate;
 	
 	@Autowired
-	QuestionCategoryRepo categoriesRepo;
+	SurveyRepo surveysRepo;
 	
 	@Autowired
 	AnswerTypeRepo answerTypeRepo;
@@ -160,9 +159,9 @@ public class ServiceData {
 			try {
 				productRepo.deleteById(name);
 				productRepo.save(new Product(newName,new HashMap<String,String>(),
-						new ArrayList<Survey>(),true));
+						new ArrayList<Survey>(),true,null));
 				
-				//Deactivating all other products of same category
+				//Deactivating all other products of same survey
 				
 				
 				
@@ -270,15 +269,15 @@ public class ServiceData {
 
 	public List<Survey> getAllCategories() {
 		// TODO Auto-generated method stub
-		return categoriesRepo.findAll();
+		return surveysRepo.findAll();
 	}
 
-	public boolean createNewCategory(String id, String name) {
+	public boolean createNewSurvey(String id, String name,boolean isDefectSurvey) {
 
 		try {
 			
-			categoriesRepo.save(new Survey(id, name,false,false
-					,new ArrayList<ProductFeedbackQuestion>()));
+			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey
+					,new ArrayList<ProductFeedbackQuestion>(),new Date()));
 			return true;
 		}catch(Exception e)
 		{
@@ -287,12 +286,14 @@ public class ServiceData {
 	
 	}
 	
-	public boolean updateCategory(String oldId,String newId, String newName) {
+	public boolean updateSurvey(String oldId,String newId, String newName) {
 
 		try {
-			categoriesRepo.deleteById(oldId);
-			categoriesRepo.save(new Survey(newId, newName,false,false
-					,new ArrayList<ProductFeedbackQuestion>()));
+			
+			boolean isDefect = getQuestionSurvey(oldId).isDefectSurvey();
+			surveysRepo.deleteById(oldId);
+			surveysRepo.save(new Survey(newId, newName,isDefect,false,false
+					,new ArrayList<ProductFeedbackQuestion>(),null));
 			return true;
 		}catch(Exception e)
 		{
@@ -301,10 +302,10 @@ public class ServiceData {
 	
 	}
 	
-	public boolean deleteCategory(String id) {
+	public boolean deleteSurvey(String id) {
 
 		try {
-			categoriesRepo.deleteById(id);
+			surveysRepo.deleteById(id);
 			return true;
 		}catch(Exception e)
 		{
@@ -344,11 +345,11 @@ public class ServiceData {
 		return null;
 	}
 	
-	public Survey getQuestionCategory(String questionId)
+	public Survey getQuestionSurvey(String questionId)
 	{
-		for(Survey questionCat : categoriesRepo.findAll())
+		for(Survey questionCat : surveysRepo.findAll())
 		{
-			if(questionCat.getCategoryId().equals(questionId))
+			if(questionCat.getSurveyId().equals(questionId))
 			{
 				return questionCat;
 			}
@@ -364,34 +365,15 @@ public class ServiceData {
 			User user = getUser(userMobile);
 			Product product = getProduct(productName);	
 			
+			product.setRegistrationDate(new Date());
 			product.setFeatures(features);
-			
-			//Activating the first survey as Active
-			List<SurveySequence> surveySequences = surveySequenceRepo.findAll();
-			List<Survey> surveys = product.getSurveys();
-			
-			for(int i=0; i<surveySequences.size();i++)
-			{
-				Survey survey = getQuestionCategory(surveySequences.get(i).getSurveyIdString());
-				
-				if(surveys.contains(survey) && product.getSurveys().contains(survey))
-				{
-					int index = surveys.indexOf(survey);
-					product.getSurveys().get(index).setNext(true);					
-				}
-				else if(product.getSurveys().contains(survey)){
-					int index = surveys.indexOf(survey);
-					product.getSurveys().get(index).setNext(false);
-				}
-			}		
-			
 			
 			user.getUserProducts().add(product);
 			
 			//Setting product as active
 			product.setActive(true);
 			
-			//setting all other user products of same category as false
+			//setting all other user products of same survey as false
 			
 			for(Product otherProduct : user.getUserProducts())
 			{
@@ -401,6 +383,9 @@ public class ServiceData {
 					otherProduct.setActive(false);
 				}
 			}
+			
+			user = setNextSurveyForFeedback(user,product);
+			
 			log.info(userMobile.toString());
 			userRepo.save(user);
 			
@@ -413,6 +398,37 @@ public class ServiceData {
 		
 	}
 	
+	private User setNextSurveyForFeedback(User user, Product product) {
+		
+		int prodIndex = user.getUserProducts().indexOf(product); 
+		
+		List<Survey> surveys = user.getUserProducts().get(prodIndex).getSurveys();
+		
+		Date regDate = user.getUserProducts().get(prodIndex).getRegistrationDate();
+		
+		List<SurveySequence> surveySeq = surveySequenceRepo.findAll();
+		
+		for (Survey survey : surveys) {
+			
+			for (SurveySequence surveySequence : surveySeq) {
+				
+				if(survey.getSurveyId().equals(surveySequence.getSurveyId()))
+				{
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(regDate);
+					
+					calendar.add(Calendar.DATE, (int)surveySequence.getDaysToActivate());
+					
+					survey.setActivationDate(calendar.getTime());
+				
+				}
+			}
+			
+		}
+		
+		return user;
+	}
+
 	public List<Product> getUserProducts(String userMobile)
 	{
 		User user = getUser(userMobile);
@@ -420,15 +436,19 @@ public class ServiceData {
 		return user.getUserProducts();
 	}
 
-	public boolean addSurveyCategory(String prodName, String surveyId) {
+	public boolean addSurveySurvey(String prodName, String surveyId) {
 		
 		try {
 			Product product = getProduct(prodName);
-			Survey survey = getQuestionCategory(surveyId);
+			Survey survey = getQuestionSurvey(surveyId);
+			
+			log.info("Product is "+product.toString());
+			log.info("Survey is "+surveyId.toString());
+			
 			boolean isfound = false;
 			for (Survey surveyInProduct : product.getSurveys()) {
 				
-				if(surveyInProduct.getCategoryId().equals(survey.getCategoryId()))
+				if(surveyInProduct.getSurveyId().equals(survey.getSurveyId()))
 				{
 					isfound=true;
 					break;
@@ -463,6 +483,7 @@ public class ServiceData {
 			return true;
 		}catch(Exception e)
 		{
+			log.info(e.getMessage());
 			return false;
 		}		
 		
@@ -489,10 +510,10 @@ public class ServiceData {
 	public boolean addQuestionToSurvey(String surveyId, String question, String questionType) {
 		
 		try {
-			Survey survey = getQuestionCategory(surveyId);
+			Survey survey = getQuestionSurvey(surveyId);
 			
 			survey.getFeedbackQuestion().add(new ProductFeedbackQuestion(question,"",questionType));
-			categoriesRepo.save(survey);
+			surveysRepo.save(survey);
 			return true;
 		}catch(Exception e)
 		{
@@ -502,19 +523,29 @@ public class ServiceData {
 
 	}
 
-	public boolean setSequence(String[] sequence) {
+	public boolean setSequence(String sequence) {
 		
-		log.info("here");
-		surveySequenceRepo.deleteAll();
-		log.info(String.valueOf(sequence.length));
+		
 		try {
-			for (int i=0;i<sequence.length;i++) {
+			surveySequenceRepo.deleteAll();
+		JSONObject seqObject = new JSONObject(sequence);
+		
+		JSONArray seqArray = seqObject.getJSONArray("sequenceArray");
+		
+		
+		log.info(seqArray.toString());
+		
+			for (int i=0;i<seqArray.length();i++) {
 				
-				surveySequenceRepo.save(new SurveySequence(i,sequence[i]));
+				surveySequenceRepo.save(new SurveySequence(Double.parseDouble((String) seqArray.getJSONObject(i).get("days")),
+						seqArray.getJSONObject(i).get("surveyId").toString()));
 				
-			}
+		
+			
+		}
 			return true;
-		}catch(Exception e)
+		}
+			catch(Exception e)
 		{
 			log.info(e.getMessage());
 			return false;
@@ -526,7 +557,7 @@ public class ServiceData {
 
 	public List<ProductFeedbackQuestion> getQuestionsListFromSurveyId(String surveyId) {
 		
-		Survey survey = getQuestionCategory(surveyId);
+		Survey survey = getQuestionSurvey(surveyId);
 		
 		
 		return survey.getFeedbackQuestion();
@@ -537,7 +568,7 @@ public class ServiceData {
 			ProductFeedbackQuestion oldPfq, ProductFeedbackQuestion newPfq) {
 		
 		try {
-			Survey survey = getQuestionCategory(surveyId);
+			Survey survey = getQuestionSurvey(surveyId);
 			
 			int index = -1;
 			for (ProductFeedbackQuestion prodFeed : survey.getFeedbackQuestion()) {
@@ -562,7 +593,7 @@ public class ServiceData {
 				return false;
 			}
 			
-			categoriesRepo.save(survey);
+			surveysRepo.save(survey);
 			return true;
 			
 		}catch(Exception e)
@@ -574,7 +605,7 @@ public class ServiceData {
 
 	public boolean deleteQuestionListFromSurveyId(String surveyId, ProductFeedbackQuestion newPfq) {
 		try {
-			Survey survey = getQuestionCategory(surveyId);
+			Survey survey = getQuestionSurvey(surveyId);
 			int index =-1;
 			if(survey.getFeedbackQuestion().contains(newPfq))
 			{
@@ -585,7 +616,7 @@ public class ServiceData {
 			
 			if(index>-1)
 			{
-				categoriesRepo.save(survey);
+				surveysRepo.save(survey);
 				return true;
 			}else {
 				return false;
