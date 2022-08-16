@@ -283,9 +283,10 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	}
 	
 	@PostMapping("/editAnswerType")
-	public boolean editAnswerType(@RequestParam String oldAnswerType,@RequestParam String newAnswerType)
+	public boolean editAnswerType(@RequestParam String oldAnswerType,@RequestParam String newAnswerType
+			,@RequestBody String[] ratingValues)
 	{
-		return service.editAnswerType(oldAnswerType,newAnswerType);
+		return service.editAnswerType(oldAnswerType,newAnswerType,ratingValues);
 	}
 	
 	@DeleteMapping("/deleteAnswerType")

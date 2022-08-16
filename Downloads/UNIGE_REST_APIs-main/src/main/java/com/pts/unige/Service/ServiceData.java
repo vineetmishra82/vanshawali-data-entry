@@ -641,11 +641,11 @@ public class ServiceData {
 		}
 	}
 
-	public boolean editAnswerType(String oldAnswerType, String newAnswerType) {
+	public boolean editAnswerType(String oldAnswerType, String newAnswerType, String[] ratingValues) {
 	
 		try {
 			answerTypeRepo.deleteById(oldAnswerType);
-			answerTypeRepo.save(new AnswerType(newAnswerType));
+			answerTypeRepo.save(new AnswerType(newAnswerType,ratingValues));
 			
 			return true;
 			
