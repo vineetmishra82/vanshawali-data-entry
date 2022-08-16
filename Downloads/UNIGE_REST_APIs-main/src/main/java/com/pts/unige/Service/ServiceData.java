@@ -506,14 +506,30 @@ public class ServiceData {
 		return answerTypeRepo.findAll();
 	}
 	
-	public boolean setAnswerType(String answerType, String[] ratingValues)
+	public boolean setAnswerType(String answerType, String ratingValues)
 	{
 		try {
+			JSONObject seqObject = new JSONObject(ratingValues);
 			
-			answerTypeRepo.save(new AnswerType(answerType,ratingValues));
+			JSONArray seqArray = seqObject.getJSONArray("ratingValues");
+			
+			log.info(seqArray.toString());
+			
+			String[] arr = new String[seqArray.length()];
+			
+			for(int i=0;i<seqArray.length();i++)
+			{
+				arr[i] = seqArray.get(i).toString();
+			}
+					
+			
+			
+			
+			answerTypeRepo.save(new AnswerType(answerType,arr));
 			return true;
 		}catch(Exception e)
 		{
+			log.info(e.getMessage());
 			return false;
 		}
 	}

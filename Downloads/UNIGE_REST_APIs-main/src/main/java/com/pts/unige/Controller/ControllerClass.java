@@ -277,7 +277,7 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	}
 	
 	@PostMapping("/addAnswerType")
-	public boolean setAnswerType(@RequestParam String answerType,@RequestBody String[] ratingValues)
+	public boolean setAnswerType(@RequestParam String answerType,@RequestBody String ratingValues)
 	{
 		return service.setAnswerType(answerType,ratingValues);
 	}
