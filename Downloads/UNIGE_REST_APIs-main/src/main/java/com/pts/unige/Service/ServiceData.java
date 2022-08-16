@@ -424,9 +424,12 @@ public class ServiceData {
 										
 					survey.setActivationDate(calendar.getTime());
 					
+					log.info("Survey - "+survey.getSurveyId());
+					log.info("compare to value - "+String.valueOf(regDate.compareTo(survey.getActivationDate())));
 				
 					if(regDate.compareTo(survey.getActivationDate())==0)
 					{
+						log.info("Survey being set true is "+survey.getSurveyId());
 						survey.setNext(true);
 					}
 				}
@@ -503,11 +506,11 @@ public class ServiceData {
 		return answerTypeRepo.findAll();
 	}
 	
-	public boolean setAnswerType(String answerType)
+	public boolean setAnswerType(String answerType, String[] ratingValues)
 	{
 		try {
 			
-			answerTypeRepo.save(new AnswerType(answerType));
+			answerTypeRepo.save(new AnswerType(answerType,ratingValues));
 			return true;
 		}catch(Exception e)
 		{

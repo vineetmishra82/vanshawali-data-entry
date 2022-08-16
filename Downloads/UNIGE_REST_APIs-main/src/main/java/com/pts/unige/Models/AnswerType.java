@@ -17,6 +17,8 @@ public class AnswerType {
 	@Setter
 	private String answerType;
 
-	
+	@Getter
+	@Setter
+	private String[] ratingValues;
 
 }
