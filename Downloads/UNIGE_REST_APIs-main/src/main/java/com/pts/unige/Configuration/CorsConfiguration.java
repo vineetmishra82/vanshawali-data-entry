@@ -14,9 +14,7 @@ public class CorsConfiguration
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	registry.addMapping("/**").allowedMethods("*").allowedOriginPatterns("https://unige-geneva.herokuapp.com");
-            	registry.addMapping("/**").allowedMethods("*").allowedOriginPatterns("http://localhost:3000");
-            	registry.addMapping("/**").allowedMethods("*").allowedOriginPatterns("https://unige-c5714.web.app");
+            	 registry.addMapping("/**").allowedOrigins("http://localhost:3000");
             	
             	
             }
