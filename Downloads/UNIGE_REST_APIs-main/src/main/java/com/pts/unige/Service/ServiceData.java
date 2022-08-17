@@ -683,6 +683,25 @@ public class ServiceData {
 		return false;
 		}
 	}
+
+	public boolean copyAnswerFromOneSurveyToAnother(String newSurvey, String oldSurvey) {
+		
+		try {
+			Survey newSurveyName = getQuestionSurvey(newSurvey);
+			Survey oldSurveyName = getQuestionSurvey(oldSurvey);
+			
+			newSurveyName.setFeedbackQuestion(oldSurveyName.getFeedbackQuestion());
+			
+			surveysRepo.save(newSurveyName);
+			
+			return true;
+		}catch(Exception e)
+		{
+			log.info(e.getMessage());
+			return false;
+		}	
+		
+	}
 	
 }
 

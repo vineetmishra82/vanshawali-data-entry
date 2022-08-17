@@ -281,5 +281,12 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 		
 		return service.deleteAnswerType(answerType);
 	}
+	
+	@PostMapping("/copyAnswerFromOneSurveyToAnother")
+	public boolean copyAnswerFromOneSurveyToAnother(@RequestParam String newSurvey,
+			@RequestParam String oldSurvey)
+	{
+		return service.copyAnswerFromOneSurveyToAnother(newSurvey,oldSurvey);
+	}
 }
 
