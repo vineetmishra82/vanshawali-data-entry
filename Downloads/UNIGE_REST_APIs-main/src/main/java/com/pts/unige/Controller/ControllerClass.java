@@ -288,5 +288,11 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	{
 		return service.copyAnswerFromOneSurveyToAnother(newSurvey,oldSurvey);
 	}
+	
+	@GetMapping("/getNonDefectCategories")
+	public List<Survey> getNonDefectCategories(){
+		
+		return service.getNonDefectCategories;
+	}
 }
 

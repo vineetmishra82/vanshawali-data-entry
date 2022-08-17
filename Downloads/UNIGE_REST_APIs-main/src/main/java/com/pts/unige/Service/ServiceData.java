@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -706,6 +708,18 @@ public class ServiceData {
 			return false;
 		}	
 		
+	}
+
+	public List<Survey> getNonDefectCategories() {
+		List<Survey> filteredSurveys = surveysRepo.findAll()
+										.stream()
+										.filter(value ->
+										!value.isDefectSurvey()
+												)
+										.collect(Collectors.toList());	
+							
+				
+		return filteredSurveys;
 	}
 	
 }
