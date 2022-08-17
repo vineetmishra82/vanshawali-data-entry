@@ -35,24 +35,14 @@ public class ControllerClass {
 	public ControllerClass(ServiceData service) {
 		this.service = service;
 	
-	}
-	
+	}	
 	
 	@GetMapping("/")
 	public String getHome() {
 		
-		Path directory = null;
-		Path lockedFile = writeString(directory.resolve("locked.txt"), "locked");		
-		lockedFile.toFile().setReadable(false);
 		return "Its working !!";
 	}
 	
-
-	private Path writeString(Path resolve, String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@GetMapping("/adminLogin")
 	public boolean adminLoginCheck(@RequestParam String userId,String password) 
