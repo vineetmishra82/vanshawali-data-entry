@@ -509,23 +509,28 @@ public class ServiceData {
 	public boolean setAnswerType(String answerType, String ratingValues)
 	{
 		try {
-			JSONObject seqObject = new JSONObject(ratingValues);
 			
-			JSONArray seqArray = seqObject.getJSONArray("ratingValues");
-			
-			log.info(seqArray.toString());
-			
-			String[] arr = new String[seqArray.length()];
-			
-			for(int i=0;i<seqArray.length();i++)
+			log.info("rating values is "+ratingValues.length());
+			if(ratingValues.contains("ratingValues"))
 			{
-				arr[i] = seqArray.get(i).toString();
+				JSONObject seqObject = new JSONObject(ratingValues);
+				
+				JSONArray seqArray = seqObject.getJSONArray("ratingValues");
+				log.info(seqArray.toString());
+				
+				String[] arr = new String[seqArray.length()];
+				
+				for(int i=0;i<seqArray.length();i++)
+				{
+					arr[i] = seqArray.get(i).toString();
+				}
+				
+				answerTypeRepo.save(new AnswerType(answerType,arr));
 			}
-					
+			else {
+				answerTypeRepo.save(new AnswerType(answerType,null));
+			}
 			
-			
-			
-			answerTypeRepo.save(new AnswerType(answerType,arr));
 			return true;
 		}catch(Exception e)
 		{
