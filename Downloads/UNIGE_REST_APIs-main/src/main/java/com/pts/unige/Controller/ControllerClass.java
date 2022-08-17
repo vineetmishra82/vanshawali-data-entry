@@ -292,7 +292,7 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	@GetMapping("/getNonDefectCategories")
 	public List<Survey> getNonDefectCategories(){
 		
-		return service.getNonDefectCategories;
+		return service.getNonDefectCategories();
 	}
 }
 
