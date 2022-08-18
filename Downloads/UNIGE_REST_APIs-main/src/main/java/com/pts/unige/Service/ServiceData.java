@@ -722,19 +722,10 @@ public class ServiceData {
 		return filteredSurveys;
 	}
 
-	public String[] getRatingsArray(String answerType) {
+	public List<AnswerType> getRatingsArray(String answerType) {
 		
 		
-		for (AnswerType answer : answerTypeRepo.findAll()) {
-			
-			if(answer.getAnswerType().equals(answerType))
-			{
-				return answer.getRatingValues();
-			}
-			
-		}
-		
-		return null;
+		return answerTypeRepo.findAll();
 	}
 	
 }
