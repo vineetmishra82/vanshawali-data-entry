@@ -300,5 +300,12 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	 {
 		 return service.getRatingsArray();
 	 }
+	
+	@PostMapping("/submitFeedback")
+	public boolean submitFeedback(@RequestParam String mobile,@RequestParam String myProductSelected,
+			@RequestBody Survey survey)
+	{
+		return service.submitFeedback(mobile,myProductSelected,survey);
+	}
 }
 

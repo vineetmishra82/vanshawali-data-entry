@@ -727,6 +727,79 @@ public class ServiceData {
 		
 		return answerTypeRepo.findAll();
 	}
+
+	public boolean submitFeedback(String mobile, String myProductSelected, Survey survey) {
+		
+		try {
+			User user = getUser(mobile);
+			
+			int index = -1;
+			
+			for (Product product : user.getUserProducts()) {
+				
+				if(product.getProductName().equals(myProductSelected))
+				{
+					index = user.getUserProducts().indexOf(product);
+					break;
+				}
+				
+			}
+			
+			List<Survey> surveys = user.getUserProducts().get(index).getSurveys();
+			
+			int index1 = -1;
+			for (Survey survey1 : surveys) {
+				
+				if(survey1.getSurveyId().equals(survey.getSurveyId()))
+				{
+					index1 = surveys.indexOf(survey1);
+					break;
+				}
+				
+			}
+			
+			surveys.remove(index1);
+			survey.setComplete(true);
+			survey.setNext(false);
+			
+			surveys.add(index1, survey);
+			
+			
+			
+			//setting next survey to be true
+			
+			if(survey.getSurveyId().equals("QS1"))
+			{
+				index1 = -1;
+				for (Survey survey1 : surveys) {
+					
+					if(survey1.getSurveyId().equals("QS2"))
+					{
+						index1 = surveys.indexOf(survey1);
+						break;
+					}
+					
+				}
+				
+				surveys.get(index1).setNext(true);
+			}
+			
+			user.getUserProducts().get(index).setSurveys(surveys);
+			
+			userRepo.save(user);
+			return true;
+			
+			
+		}
+		catch(Exception e)
+		{
+			log.info(e.getLocalizedMessage());
+			return false;
+		}
+		
+		
+		
+	}
 	
 }
 
