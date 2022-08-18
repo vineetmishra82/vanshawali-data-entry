@@ -721,6 +721,21 @@ public class ServiceData {
 				
 		return filteredSurveys;
 	}
+
+	public String[] getRatingsArray(String answerType) {
+		
+		
+		for (AnswerType answer : answerTypeRepo.findAll()) {
+			
+			if(answer.getAnswerType().equals(answerType))
+			{
+				return answer.getRatingValues();
+			}
+			
+		}
+		
+		return null;
+	}
 	
 }
 

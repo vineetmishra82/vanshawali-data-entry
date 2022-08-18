@@ -294,5 +294,11 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 		
 		return service.getNonDefectCategories();
 	}
+	 
+	@GetMapping("/getRatingsArray")
+	 public String[] getRatingsArray(@RequestParam String answerType)
+	 {
+		 return service.getRatingsArray(answerType);
+	 }
 }
 
