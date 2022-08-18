@@ -722,7 +722,7 @@ public class ServiceData {
 		return filteredSurveys;
 	}
 
-	public List<AnswerType> getRatingsArray(String answerType) {
+	public List<AnswerType> getRatingsArray() {
 		
 		
 		return answerTypeRepo.findAll();

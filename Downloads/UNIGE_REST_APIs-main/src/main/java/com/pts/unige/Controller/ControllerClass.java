@@ -296,9 +296,9 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	}
 	 
 	@GetMapping("/getRatingsArray")
-	 public String[] getRatingsArray(@RequestParam String answerType)
+	 public List<AnswerType> getRatingsArray()
 	 {
-		 return service.getRatingsArray(answerType);
+		 return service.getRatingsArray();
 	 }
 }
 
