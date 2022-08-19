@@ -309,6 +309,7 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	public boolean submitFeedback(@RequestParam String mobile,@RequestParam String myProductSelected,
 			@RequestBody String surveyJson) {
 	
+		log.info(surveyJson);
 		Survey survey;
 	
 		ObjectMapper mapper = new ObjectMapper();
@@ -321,6 +322,12 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 		return false;
 	    }
 		return service.submitFeedback(mobile,myProductSelected,survey);
+	}
+	
+	@GetMapping("/getDefectSurveys")
+	public List<Survey> getDefectSurveys()
+	{
+		return service.getDefectSurveys();
 	}
 }
 

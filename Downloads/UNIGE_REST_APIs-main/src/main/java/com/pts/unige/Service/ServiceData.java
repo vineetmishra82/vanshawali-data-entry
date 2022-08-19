@@ -800,6 +800,23 @@ public class ServiceData {
 		
 		
 	}
+
+	public List<Survey> getDefectSurveys() {
+		
+		List<Survey> surveys = surveysRepo.findAll();
+		List<Survey> defectSurveys = new ArrayList<>();
+		
+		for (Survey survey : surveys) {
+			
+			if(survey.isDefectSurvey())
+			{
+				defectSurveys.add(survey);
+			}
+			
+		}
+		
+		return defectSurveys;
+	}
 	
 }
 
