@@ -1,10 +1,12 @@
 package com.pts.unige.Controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.json.JsonMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pts.unige.Models.*;
 import com.pts.unige.Service.ServiceData;
 
@@ -303,8 +307,19 @@ ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answe
 	
 	@PostMapping("/submitFeedback")
 	public boolean submitFeedback(@RequestParam String mobile,@RequestParam String myProductSelected,
-			@RequestBody Survey survey)
-	{
+			@RequestBody String surveyJson) {
+	
+		Survey survey;
+	
+		ObjectMapper mapper = new ObjectMapper();
+	    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	   
+	    try {
+	        survey = mapper.readValue(surveyJson, Survey.class);
+	}catch(Exception e)
+	    {
+		return false;
+	    }
 		return service.submitFeedback(mobile,myProductSelected,survey);
 	}
 }
