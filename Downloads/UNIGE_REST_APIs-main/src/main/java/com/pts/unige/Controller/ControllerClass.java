@@ -215,9 +215,11 @@ public class ControllerClass {
 	
 		
 	@PostMapping("/addQuestionToSurvey")
-	public boolean addQuestionToSurvey(@RequestParam String surveyId,@RequestParam String question,@RequestParam String questionType )
+	public boolean addQuestionToSurvey(@RequestParam String surveyId,@RequestParam String question
+			,@RequestParam String questionType,@RequestBody String body )
 	{
-		return service.addQuestionToSurvey(surveyId,question,questionType);
+		
+		return service.addQuestionToSurvey(surveyId,question,questionType,body);
 	}
 	
 	@PostMapping("/setSequence")
@@ -241,7 +243,7 @@ public class ControllerClass {
 			,@RequestParam String question,
 			@RequestParam String answerType)
 	{
-		ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answerType);
+		ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion("","","",question, "", answerType);
 		
 		log.info(oldPfq.toString()+"-"+newPfq);
 		
@@ -253,7 +255,7 @@ public class ControllerClass {
 			@RequestParam String question,
 			@RequestParam String answerType)
 	{
-ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(question, "", answerType);
+ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion("","","",question, "", answerType);
 		
 		return service.deleteQuestionListFromSurveyId(surveyId,newPfq);
 	}

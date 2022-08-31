@@ -541,12 +541,22 @@ public class ServiceData {
 		}
 	}
 
-	public boolean addQuestionToSurvey(String surveyId, String question, String questionType) {
+	public boolean addQuestionToSurvey(String surveyId, String question, String questionType, String body) {
 		
 		try {
+			//Decoding body
+			
+			JSONObject bodyObject = new JSONObject(body);
+			
+			String mainScreenTitle = bodyObject.getString("mainScreentitle");
+			String titleLine = bodyObject.getString("titleLine");
+			String questionTitle = bodyObject.getString("questionTitle"); 
+			
+			
 			Survey survey = getQuestionSurvey(surveyId);
 			
-			survey.getFeedbackQuestion().add(new ProductFeedbackQuestion(question,"",questionType));
+			survey.getFeedbackQuestion().add(new ProductFeedbackQuestion(mainScreenTitle,titleLine,
+					questionTitle,question,"",questionType));
 			surveysRepo.save(survey);
 			return true;
 		}catch(Exception e)

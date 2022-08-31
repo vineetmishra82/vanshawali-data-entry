@@ -2,18 +2,31 @@ package com.pts.unige.Models;
 
 
 
-import java.util.Map;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Document(collection = "ProductFeedbackQuestions")
 @AllArgsConstructor
+@ToString
 public class ProductFeedbackQuestion  {
-
+	
+	@Getter
+	@Setter
+	private String mainScreentitle;
+	
+	@Getter
+	@Setter
+	private String titleLine;
+	
+	@Getter
+	@Setter
+	private String questionTitle;
+	
 	@Getter
 	@Setter
 	private String question;
@@ -21,8 +34,7 @@ public class ProductFeedbackQuestion  {
 	@Getter
 	@Setter
 	private String answer;
-	
-	
+		
 	@Getter
 	@Setter
 	private String answerType; //Slider or Descriptive
@@ -38,11 +50,7 @@ public class ProductFeedbackQuestion  {
 	}
 
 
-	@Override
-	public String toString() {
-		return "ProductFeedbackQuestion [question=" + question + ", answer=" + answer + ", answerType=" + answerType
-				+ "]";
-	}
+	
 	
 	
 	
