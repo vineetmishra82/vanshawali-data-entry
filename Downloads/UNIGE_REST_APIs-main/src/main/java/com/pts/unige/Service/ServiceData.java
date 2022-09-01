@@ -275,10 +275,19 @@ public class ServiceData {
 	}
 
 	public boolean createNewSurvey(String id, String name,boolean isDefectSurvey) {
-//Trying to cmmit
+
 		try {
 			
-			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey
+			boolean isDeletaAble = true;
+			
+			if(id.contains("QS1") || id.contains("QS2") || 
+					id.contains("Defect Report") || id.contains("Replacement")
+					|| id.contains("Complaint" ))
+			{
+				isDeletaAble = false;
+			}
+			
+			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey,isDeletaAble
 					,new ArrayList<ProductFeedbackQuestion>(),new Date()));
 			return true;
 		}catch(Exception e)
@@ -293,8 +302,9 @@ public class ServiceData {
 		try {
 			
 			boolean isDefect = getQuestionSurvey(oldId).isDefectSurvey();
+			boolean isDeletable = getQuestionSurvey(oldId).isDeleteAble();
 			surveysRepo.deleteById(oldId);
-			surveysRepo.save(new Survey(newId, newName,isDefect,false,false
+			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable
 					,new ArrayList<ProductFeedbackQuestion>(),null));
 			return true;
 		}catch(Exception e)

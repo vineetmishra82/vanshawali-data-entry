@@ -2,10 +2,10 @@ package com.pts.unige.Models;
 
 
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +13,9 @@ import lombok.ToString;
 @Document(collection = "ProductFeedbackQuestions")
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class ProductFeedbackQuestion  {
+	
 	
 	@Getter
 	@Setter
@@ -38,20 +40,6 @@ public class ProductFeedbackQuestion  {
 	@Getter
 	@Setter
 	private String answerType; //Slider or Descriptive
-
-
-	@Override
-	public boolean equals(Object obj) {
-		
-		ProductFeedbackQuestion pd = (ProductFeedbackQuestion) obj;
-		
-		
-		return (this.question.equals(pd.getQuestion()) && this.answerType.equals(pd.getAnswerType()));
-	}
-
-
-	
-	
 	
 	
 }

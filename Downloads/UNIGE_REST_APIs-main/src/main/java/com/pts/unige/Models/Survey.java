@@ -37,6 +37,10 @@ public class Survey {
 	
 	@Getter
 	@Setter
+	private boolean isDeleteAble;
+	
+	@Getter
+	@Setter
 	private List<ProductFeedbackQuestion> feedbackQuestion;
 
 	@Getter
