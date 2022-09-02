@@ -171,8 +171,10 @@ public class ControllerClass {
 	
 	@PostMapping("/createNewSurvey")
 	public boolean createNewSurvey(@RequestParam String id, @RequestParam String name,
-			@RequestParam boolean isDefectSurvey,@RequestParam String thankYouText)
+			@RequestParam boolean isDefectSurvey,@RequestBody String body)
 	{
+		JSONObject obj= new JSONObject(body);
+		String thankYouText = obj.getString("surveyThanksMessage");
 		return service.createNewSurvey(id,name,isDefectSurvey,thankYouText);
 	}
 	
