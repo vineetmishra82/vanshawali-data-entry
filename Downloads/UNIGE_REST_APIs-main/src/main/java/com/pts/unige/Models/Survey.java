@@ -41,6 +41,10 @@ public class Survey {
 	
 	@Getter
 	@Setter
+	private String thankYouText;
+	
+	@Getter
+	@Setter
 	private List<ProductFeedbackQuestion> feedbackQuestion;
 
 	@Getter

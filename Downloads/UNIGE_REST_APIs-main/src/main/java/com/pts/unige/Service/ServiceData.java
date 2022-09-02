@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.pts.unige.Models.*;
 import com.pts.unige.Repositories.*;
 
+import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -274,7 +275,7 @@ public class ServiceData {
 		return surveysRepo.findAll();
 	}
 
-	public boolean createNewSurvey(String id, String name,boolean isDefectSurvey) {
+	public boolean createNewSurvey(String id, String name,boolean isDefectSurvey, String thankYouText) {
 
 		try {
 			
@@ -287,7 +288,7 @@ public class ServiceData {
 				isDeletaAble = false;
 			}
 			
-			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey,isDeletaAble
+			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey,isDeletaAble,thankYouText
 					,new ArrayList<ProductFeedbackQuestion>(),new Date()));
 			return true;
 		}catch(Exception e)
@@ -297,15 +298,18 @@ public class ServiceData {
 	
 	}
 	
-	public boolean updateSurvey(String oldId,String newId, String newName) {
+	public boolean updateSurvey(String oldId,String newId, String newName, String body) {
 
 		try {
+			
+			JSONObject jb = new JSONObject(body);
+			String thankYoutext = jb.getString("editSurveyThanksMessage"); 
 			
 			boolean isDefect = getQuestionSurvey(oldId).isDefectSurvey();
 			boolean isDeletable = getQuestionSurvey(oldId).isDeleteAble();
 			surveysRepo.deleteById(oldId);
-			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable
-					,new ArrayList<ProductFeedbackQuestion>(),null));
+			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable,
+					thankYoutext,new ArrayList<ProductFeedbackQuestion>(),null));
 			return true;
 		}catch(Exception e)
 		{

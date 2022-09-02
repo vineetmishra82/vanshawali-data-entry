@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.json.JsonMode;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -170,16 +171,19 @@ public class ControllerClass {
 	
 	@PostMapping("/createNewSurvey")
 	public boolean createNewSurvey(@RequestParam String id, @RequestParam String name,
-			@RequestParam boolean isDefectSurvey)
+			@RequestParam boolean isDefectSurvey,@RequestParam String thankYouText)
 	{
-		return service.createNewSurvey(id,name,isDefectSurvey);
+		return service.createNewSurvey(id,name,isDefectSurvey,thankYouText);
 	}
 	
 	@PostMapping("/updateSurvey")
 	public boolean updateSurvey(@RequestParam String oldId,
-			String newId,String newName)
+			@RequestParam String newId,@RequestParam String newName,@RequestBody
+			String body)
 	{
-		return service.updateSurvey(oldId, newId, newName);
+	
+		
+		return service.updateSurvey(oldId, newId, newName,body);
 	}
 	
 	@DeleteMapping("/deleteSurvey")
