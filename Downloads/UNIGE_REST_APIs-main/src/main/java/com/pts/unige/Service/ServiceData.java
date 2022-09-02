@@ -657,19 +657,23 @@ public class ServiceData {
 		
 	}
 
-	public boolean deleteQuestionListFromSurveyId(String surveyId, ProductFeedbackQuestion newPfq) {
+	public boolean deleteQuestionListFromSurveyId(String surveyId, String question, String answerType) {
 		try {
 			Survey survey = getQuestionSurvey(surveyId);
 			int index =-1;
-			if(survey.getFeedbackQuestion().contains(newPfq))
-			{
-				index = survey.getFeedbackQuestion().indexOf(newPfq);
-				survey.getFeedbackQuestion().remove(index);
-						
+			
+			for (ProductFeedbackQuestion pfq : survey.getFeedbackQuestion()) {
+				
+				if(pfq.getQuestion().equals(question) && pfq.getAnswerType().equals(answerType))
+				{
+					index = survey.getFeedbackQuestion().indexOf(pfq);
+					break;
+				}
 			}
 			
 			if(index>-1)
 			{
+				survey.getFeedbackQuestion().remove(index);
 				surveysRepo.save(survey);
 				return true;
 			}else {

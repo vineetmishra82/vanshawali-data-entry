@@ -255,9 +255,9 @@ public class ControllerClass {
 			@RequestParam String question,
 			@RequestParam String answerType)
 	{
-ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion("","","",question, "", answerType);
+
 		
-		return service.deleteQuestionListFromSurveyId(surveyId,newPfq);
+		return service.deleteQuestionListFromSurveyId(surveyId,question,answerType);
 	}
 	
 	//AnswerType CRUD
