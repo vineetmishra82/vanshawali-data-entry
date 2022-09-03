@@ -623,7 +623,7 @@ public class ServiceData {
 
 	
 	public boolean editQuestionListFromSurveyId(String surveyId,
-			ProductFeedbackQuestion oldPfq, ProductFeedbackQuestion newPfq) {
+			String oldQuestion,String oldAnswerType,String body) {
 		
 		try {
 			Survey survey = getQuestionSurvey(surveyId);
@@ -631,12 +631,10 @@ public class ServiceData {
 			int index = -1;
 			for (ProductFeedbackQuestion prodFeed : survey.getFeedbackQuestion()) {
 				
-				log.info("prodFeed - "+prodFeed.toString());
-				log.info("oldPfq - "+oldPfq.toString());
-				
-				if(prodFeed.equals(oldPfq))
+				if(prodFeed.getQuestion().equals(oldQuestion) &&
+						prodFeed.getAnswerType().equals(oldAnswerType))
 				{
-					index = survey.getFeedbackQuestion().indexOf(oldPfq);
+					index = survey.getFeedbackQuestion().indexOf(prodFeed);
 					break;
 				}
 				
@@ -644,8 +642,15 @@ public class ServiceData {
 			
 			if(index>-1)
 			{
+				JSONObject bodyObj = new JSONObject(body);
+				
+				ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(
+						bodyObj.getString("mainScreentitle"), bodyObj.getString("titleLine"),
+						bodyObj.getString("questionTitle"), bodyObj.getString("question"),
+						"", bodyObj.getString("answerType"));
+				
 				survey.getFeedbackQuestion().remove(index);
-				survey.getFeedbackQuestion().add(newPfq);				
+				survey.getFeedbackQuestion().add(index,newPfq);				
 			}
 			else {
 				return false;

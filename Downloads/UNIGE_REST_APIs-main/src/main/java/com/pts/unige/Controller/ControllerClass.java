@@ -244,16 +244,12 @@ public class ControllerClass {
 	}
 	
 	@PostMapping("/editQuestionListFromSurveyId")
-	public boolean editQuestionListFromSurveyId(@RequestBody ProductFeedbackQuestion oldPfq,
-			@RequestParam String surveyId
-			,@RequestParam String question,
-			@RequestParam String answerType)
+	public boolean editQuestionListFromSurveyId(@RequestParam String surveyId
+			,@RequestParam String oldQuestion,
+			@RequestParam String oldAnswerType,@RequestBody String body)
 	{
-		ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion("","","",question, "", answerType);
-		
-		log.info(oldPfq.toString()+"-"+newPfq);
-		
-		return service.editQuestionListFromSurveyId(surveyId,oldPfq,newPfq);
+			
+		return service.editQuestionListFromSurveyId(surveyId,oldQuestion,oldAnswerType,body);
 	}
 	
 	@DeleteMapping("/deleteQuestionListFromSurveyId")
