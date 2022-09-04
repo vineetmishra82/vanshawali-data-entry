@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.pts.unige.Models.*;
 import com.pts.unige.Repositories.*;
 
-import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -623,10 +622,15 @@ public class ServiceData {
 
 	
 	public boolean editQuestionListFromSurveyId(String surveyId,
-			String oldQuestion,String oldAnswerType,String body) {
+			String body) {
 		
 		try {
 			Survey survey = getQuestionSurvey(surveyId);
+			
+			JSONObject bodyObj = new JSONObject(body);
+			
+			String oldQuestion = bodyObj.getString("question");
+			String oldAnswerType = bodyObj.getString("answerType"); 
 			
 			int index = -1;
 			for (ProductFeedbackQuestion prodFeed : survey.getFeedbackQuestion()) {
@@ -642,13 +646,13 @@ public class ServiceData {
 			
 			if(index>-1)
 			{
-				JSONObject bodyObj = new JSONObject(body);
+			
 				
 				ProductFeedbackQuestion newPfq = new ProductFeedbackQuestion(
-						bodyObj.getString("mainScreentitle"), bodyObj.getString("titleLine"),
-						bodyObj.getString("questionTitle"), bodyObj.getString("question"),
-						"", bodyObj.getString("answerType"));
-				
+						bodyObj.getString("updateMainScreentitle"), bodyObj.getString("updateTitleLine"),
+						bodyObj.getString("updateQuestionTitle"), bodyObj.getString("updateQuestion"),
+						"", bodyObj.getString("updateAnswerType"));
+				log.info(newPfq.toString());
 				survey.getFeedbackQuestion().remove(index);
 				survey.getFeedbackQuestion().add(index,newPfq);				
 			}

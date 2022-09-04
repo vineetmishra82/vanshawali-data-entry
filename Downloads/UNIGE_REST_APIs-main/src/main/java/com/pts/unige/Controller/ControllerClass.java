@@ -245,11 +245,11 @@ public class ControllerClass {
 	
 	@PostMapping("/editQuestionListFromSurveyId")
 	public boolean editQuestionListFromSurveyId(@RequestParam String surveyId
-			,@RequestParam String oldQuestion,
-			@RequestParam String oldAnswerType,@RequestBody String body)
+			,@RequestBody String body)
 	{
+		
 			
-		return service.editQuestionListFromSurveyId(surveyId,oldQuestion,oldAnswerType,body);
+		return service.editQuestionListFromSurveyId(surveyId,body);
 	}
 	
 	@DeleteMapping("/deleteQuestionListFromSurveyId")
