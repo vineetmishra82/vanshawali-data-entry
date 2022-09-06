@@ -427,7 +427,8 @@ public class ServiceData {
 			
 			for (SurveySequence surveySequence : surveySeq) {
 				
-				if(survey.getSurveyId().equals(surveySequence.getSurveyId()))
+				if(survey.getSurveyId().equals(surveySequence.getSurveyId()) &&
+						!survey.isDefectSurvey())
 				{
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(regDate);
@@ -451,6 +452,20 @@ public class ServiceData {
 			}
 			
 		}
+		
+		//Loading all defect surveys in the product surveys
+		
+		List<Survey> allSurveys = surveysRepo.findAll();
+		
+		for(Survey survey : allSurveys )
+		{
+			if(survey.isDefectSurvey())
+			{
+				surveys.add(survey);
+			}
+		}
+		
+		
 		
 		return user;
 	}
@@ -838,16 +853,22 @@ public class ServiceData {
 		
 	}
 
-	public List<Survey> getDefectSurveys() {
+	public List<Survey> generateAndGetDefectSurveys(String userMobile, String prod) {
+		
+		User user = getUser(userMobile);
+		Product product = getProduct(prod);
 		
 		List<Survey> surveys = surveysRepo.findAll();
-		List<Survey> defectSurveys = new ArrayList<>();
+		List<Survey> defectSurveys = product.getSurveys();
 		
 		for (Survey survey : surveys) {
 			
-			if(survey.isDefectSurvey())
+			if(survey.getSurveyId().equals("Defect Report"))
 			{
 				defectSurveys.add(survey);
+				
+				//Adding survey to Current product
+				
 			}
 			
 		}

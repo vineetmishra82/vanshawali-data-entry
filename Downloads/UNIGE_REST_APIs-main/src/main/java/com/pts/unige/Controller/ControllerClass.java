@@ -328,10 +328,10 @@ public class ControllerClass {
 		return service.submitFeedback(mobile,myProductSelected,survey);
 	}
 	
-	@GetMapping("/getDefectSurveys")
-	public List<Survey> getDefectSurveys()
+	@GetMapping("/generateAndGetDefectSurveys")
+	public List<Survey> getDefectSurveys(@RequestParam String userMobile,@RequestParam String product)
 	{
-		return service.getDefectSurveys();
+		return service.generateAndGetDefectSurveys(userMobile,product);
 	}
 }
 
