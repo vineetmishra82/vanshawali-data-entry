@@ -51,4 +51,8 @@ public class Survey {
 	@Setter
 	private Date activationDate;
 	
+	@Getter
+	@Setter
+	private Date completionDate;
+	
 }

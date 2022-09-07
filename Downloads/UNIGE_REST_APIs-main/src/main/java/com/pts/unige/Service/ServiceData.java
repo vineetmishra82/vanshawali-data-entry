@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 
 @Service
 @Slf4j
@@ -51,7 +52,8 @@ public class ServiceData {
 	SurveySequenceRepo surveySequenceRepo;
 	
 	boolean opsResult;
-
+	
+	
 	public boolean adminLogin(String userId, String password) {
 
 		List<Admin> admins = adminRepo.findAll();
@@ -288,7 +290,7 @@ public class ServiceData {
 			}
 			
 			surveysRepo.save(new Survey(id, name,false,false,isDefectSurvey,isDeletaAble,thankYouText
-					,new ArrayList<ProductFeedbackQuestion>(),new Date()));
+					,new ArrayList<ProductFeedbackQuestion>(),new Date(), new Date()));
 			return true;
 		}catch(Exception e)
 		{
@@ -308,7 +310,7 @@ public class ServiceData {
 			boolean isDeletable = getQuestionSurvey(oldId).isDeleteAble();
 			surveysRepo.deleteById(oldId);
 			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable,
-					thankYoutext,new ArrayList<ProductFeedbackQuestion>(),null));
+					thankYoutext,new ArrayList<ProductFeedbackQuestion>(),null, null));
 			return true;
 		}catch(Exception e)
 		{
@@ -461,6 +463,10 @@ public class ServiceData {
 		{
 			if(survey.isDefectSurvey())
 			{
+				if(survey.getSurveyId().equals("Defect Report"))
+				{
+					survey.setNext(true);
+				}
 				surveys.add(survey);
 			}
 		}
@@ -875,6 +881,8 @@ public class ServiceData {
 		
 		return defectSurveys;
 	}
+
+	
 	
 }
 
