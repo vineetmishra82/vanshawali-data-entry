@@ -415,24 +415,23 @@ public class ServiceData {
 			
 			log.info("After processing prod name is "+product.getProductName());
 			
-			user.getUserProducts().add(product);
-			
-			
+						
 			
 			//Setting product as active
 			product.setActive(true);
 			
 			//setting all other user products of same survey as false
+			String[] values = product.getProductName().split("-"); 
 			
 			for(Product otherProduct : user.getUserProducts())
 			{
-				if(!otherProduct.equals(product) && otherProduct.getProductName()
-						.equals(product.getProductName()))
+				if(otherProduct.getProductName().startsWith(values[0]+"-"))
 				{
 					otherProduct.setActive(false);
 				}
 			}
 			
+			user.getUserProducts().add(product);
 			user = setNextSurveyForFeedback(user,product);
 			
 			log.info(userMobile.toString());
