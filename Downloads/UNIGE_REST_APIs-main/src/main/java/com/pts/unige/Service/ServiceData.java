@@ -2,6 +2,9 @@ package com.pts.unige.Service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -392,6 +395,7 @@ public class ServiceData {
 			
 			product.setProductName(productName+"-"+brand);
 			
+			log.info("Initial prod name is "+product.getProductName());
 			
 			//Adding product
 			boolean found  = false;
@@ -409,6 +413,7 @@ public class ServiceData {
 				product = processDuplicateProducts(user, product);
 			}
 			
+			log.info("After processing prod name is "+product.getProductName());
 			
 			user.getUserProducts().add(product);
 			
@@ -554,7 +559,18 @@ public class ServiceData {
 	{
 		User user = getUser(userMobile);
 		
-		return user.getUserProducts();
+		List<Product> list= user.getUserProducts();
+		
+		Collections.sort(list,new Comparator<Product>() {
+
+			@Override
+			public int compare(Product o1, Product o2) {
+				// TODO Auto-generated method stub
+				return o1.getProductName().compareTo(o2.getProductName());
+			}
+		});
+		
+		return list;
 	}
 
 	public boolean addSurveySurvey(String prodName, String surveyId) {
