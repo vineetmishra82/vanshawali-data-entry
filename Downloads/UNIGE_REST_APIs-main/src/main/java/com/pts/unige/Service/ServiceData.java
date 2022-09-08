@@ -310,7 +310,7 @@ public class ServiceData {
 			boolean isDeletable = getQuestionSurvey(oldId).isDeleteAble();
 			surveysRepo.deleteById(oldId);
 			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable,
-					thankYoutext,new ArrayList<ProductFeedbackQuestion>(),null, null));
+					thankYoutext,new ArrayList<ProductFeedbackQuestion>(),new Date(), new Date()));
 			return true;
 		}catch(Exception e)
 		{
