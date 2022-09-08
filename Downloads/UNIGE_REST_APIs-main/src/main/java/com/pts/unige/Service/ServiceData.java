@@ -302,14 +302,14 @@ public class ServiceData {
 	
 	}
 	
-	public boolean updateSurvey(String oldId,String newId, String newName, String body) {
+	public boolean updateSurvey(String oldId,String newId, String newName, boolean isDefect, String body) {
 
 		try {
 			
 			JSONObject jb = new JSONObject(body);
 			String thankYoutext = jb.getString("editSurveyThanksMessage"); 
 			
-			boolean isDefect = getQuestionSurvey(oldId).isDefectSurvey();
+			
 			boolean isDeletable = getQuestionSurvey(oldId).isDeleteAble();
 			surveysRepo.deleteById(oldId);
 			surveysRepo.save(new Survey(newId, newName,isDefect,false,false,isDeletable,
@@ -522,7 +522,9 @@ public class ServiceData {
 					
 					log.info("Survey - "+survey.getSurveyId());
 					log.info("compare to value - "+String.valueOf(regDate.compareTo(survey.getActivationDate())));
-				
+					log.info("Reg date - "+regDate);
+					log.info("survey act date - "+survey.getActivationDate());
+					
 					if(regDate.compareTo(survey.getActivationDate())==0)
 					{
 						log.info("Survey being set true is "+survey.getSurveyId());

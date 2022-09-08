@@ -180,12 +180,14 @@ public class ControllerClass {
 	
 	@PostMapping("/updateSurvey")
 	public boolean updateSurvey(@RequestParam String oldId,
-			@RequestParam String newId,@RequestParam String newName,@RequestBody
-			String body)
+			@RequestParam String newId,@RequestParam String newName,
+			@RequestParam String isDefectSurvey,
+			@RequestBody String body)
 	{
-	
 		
-		return service.updateSurvey(oldId, newId, newName,body);
+		boolean isDefect = isDefectSurvey.equals("Yes") ? true : false;
+		
+		return service.updateSurvey(oldId, newId, newName,isDefect,body);
 	}
 	
 	@DeleteMapping("/deleteSurvey")
