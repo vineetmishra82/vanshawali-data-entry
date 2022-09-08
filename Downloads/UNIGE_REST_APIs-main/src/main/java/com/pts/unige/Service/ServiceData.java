@@ -503,7 +503,7 @@ public class ServiceData {
 		
 		List<SurveySequence> surveySeq = surveySequenceRepo.findAll();
 		
-		for (Survey survey : surveys) {
+		for (Survey survey : surveysRepo.findAll()) {
 			
 			for (SurveySequence surveySequence : surveySeq) {
 				
@@ -528,6 +528,8 @@ public class ServiceData {
 						log.info("Survey being set true is "+survey.getSurveyId());
 						survey.setNext(true);
 					}
+					
+					surveys.add(survey);
 				}
 			}
 			
