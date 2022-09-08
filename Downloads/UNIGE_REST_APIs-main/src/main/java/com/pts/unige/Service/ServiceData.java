@@ -385,7 +385,34 @@ public class ServiceData {
 			product.setRegistrationDate(new Date());
 			product.setFeatures(features);
 			
+			//Setting product name
+			
+			String brand = product.getFeatures().get("Brand").length()<=0 ?
+							"Some Brand" : product.getFeatures().get("Brand");
+			
+			product.setProductName(productName+"-"+brand);
+			
+			
+			//Adding product
+			boolean found  = false;
+			for (Product prod : user.getUserProducts()) {
+				
+				if(prod.getProductName().startsWith(product.getProductName()))
+				{
+					found = true;
+					break;
+				}
+			}
+			
+			if(found)
+			{
+				product = processDuplicateProducts(user, product);
+			}
+			
+			
 			user.getUserProducts().add(product);
+			
+			
 			
 			//Setting product as active
 			product.setActive(true);
@@ -415,6 +442,53 @@ public class ServiceData {
 		
 	}
 	
+	private Product processDuplicateProducts(User user, Product product) {
+	
+		String[] values = product.getProductName().split("-");
+		
+		if(values.length==2)
+		{
+			int count = 1;
+			
+			for (Product prod : user.getUserProducts()) {
+				
+				if(prod.getProductName().startsWith(product.getProductName()))
+				{
+					prod.setProductName(prod.getProductName()+"-"+String.valueOf(count));
+					count++;
+				}				
+				
+			}
+			//saving user
+			
+			userRepo.save(user);
+			
+			//changing current product name
+			
+			product.setProductName(product.getProductName()+"-"+String.valueOf(count));
+			
+		}
+		else if(values.length==3)
+		{
+			int count = 1;
+			
+			for (Product prod : user.getUserProducts()) {
+				
+				if(prod.getProductName().startsWith(product.getProductName()))
+				{
+					count++;
+				}				
+					
+			
+		}
+			//changing current product name
+			
+			product.setProductName(product.getProductName()+"-"+String.valueOf(count));		
+		
+	}
+		return product;
+	}
+
 	private User setNextSurveyForFeedback(User user, Product product) {
 		
 		int prodIndex = user.getUserProducts().indexOf(product); 
