@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pts.unige.Models.*;
 import com.pts.unige.Repositories.*;
 
@@ -954,7 +956,7 @@ public class ServiceData {
 
 	public List<Survey> generateAndGetDefectSurveys(String userMobile, String prod) {
 		
-		User user = getUser(userMobile);
+	
 		Product product = getProduct(prod);
 		
 		List<Survey> surveys = surveysRepo.findAll();
@@ -973,6 +975,33 @@ public class ServiceData {
 		}
 		
 		return defectSurveys;
+	}
+
+	public boolean deleteUserProduct(String mobile, String userProduct) {
+		
+		User user = getUser(mobile);
+		ObjectMapper mapper = new ObjectMapper();
+	    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	   
+		
+		  try {
+		        Product product = mapper.readValue(userProduct, Product.class);
+		        List<Product> products = user.getUserProducts();
+		        
+		        products.remove(product);
+		        
+		        userRepo.save(user);
+		        
+		        return true;
+		        
+		}catch(Exception e)
+		    {
+			return false;
+		    }
+		
+		
+	    
+
 	}
 
 	
