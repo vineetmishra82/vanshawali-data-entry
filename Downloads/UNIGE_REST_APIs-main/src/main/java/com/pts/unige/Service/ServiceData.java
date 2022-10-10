@@ -980,12 +980,8 @@ public class ServiceData {
 	public boolean deleteUserProduct(String mobile, String userProduct) {
 		
 		User user = getUser(mobile);
-		ObjectMapper mapper = new ObjectMapper();
-	    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	   
-		
-		  try {
-		        Product product = mapper.readValue(userProduct, Product.class);
+		Product product = getProduct(userProduct);
+			  try {
 		        List<Product> products = user.getUserProducts();
 		        
 		        products.remove(product);
