@@ -339,9 +339,9 @@ public class ControllerClass {
 	//Special requests URLs
 	
 	@DeleteMapping("/deleteUserProduct")
-	public boolean deleteUserProduct(@RequestParam String mobile,@RequestParam
+	public boolean deleteUserProduct(@RequestParam String userMobile,@RequestParam
 		String userProduct) {
-		return service.deleteUserProduct(mobile,userProduct);
+		return service.deleteUserProduct(userMobile,userProduct);
 	}
 	
 
