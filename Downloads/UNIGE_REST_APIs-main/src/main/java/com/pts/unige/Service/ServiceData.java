@@ -980,15 +980,31 @@ public class ServiceData {
 	public boolean deleteUserProduct(String mobile, String userProduct) {
 		
 		User user = getUser(mobile);
-		Product product = getProduct(userProduct);
+		
 			  try {
 		        List<Product> products = user.getUserProducts();
 		        
-		        products.remove(product);
+		        int index = -1;
 		        
-		        userRepo.save(user);
+		        for (Product product : products) {
+					
+		        	if(product.getProductName().equals(userProduct))
+		        	{
+		        		index = products.indexOf(product);
+		        		break;
+		        	}
+				}
 		        
-		        return true;
+		        if(index>-1)
+		        {
+		        	products.remove(index);
+			        
+			        userRepo.save(user);
+			        
+			        return true;
+		        }
+		        
+		        return false;
 		        
 		}catch(Exception e)
 		    {
