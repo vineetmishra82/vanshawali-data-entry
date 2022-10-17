@@ -104,6 +104,10 @@ public class ControllerClass {
 		
 		features.put("Purchase Date", "");
 		features.put("Brand", "");
+		features.put("Model", "");
+		features.put("Purchase Type", "");
+		features.put("Price(in $ approx)", "");
+		
 		
 		return service.createProduct(new Product(name,features,
 				new ArrayList<Survey>(),true,null));
