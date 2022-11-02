@@ -108,6 +108,7 @@ public class ControllerClass {
 		features.put("Purchase Type", "");
 		features.put("Price(in $ approx)", "");
 		
+		//With no of days
 		
 		return service.createProduct(new Product(name,features,
 				days,new ArrayList<Survey>(), true,null));
