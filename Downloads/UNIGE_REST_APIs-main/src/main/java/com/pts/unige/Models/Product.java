@@ -26,6 +26,9 @@ public class Product {
 	@Setter
 	private Map<String,String> features;
 	
+	@Getter
+	@Setter
+	private int surveyGapDays;
 	
 	@Getter
 	@Setter

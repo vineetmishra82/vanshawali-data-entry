@@ -158,7 +158,7 @@ public class ServiceData {
 		
 	}
 
-	public boolean updateProduct(String name, String newName) {
+	public boolean updateProduct(String name, String newName, int days) {
 
 		Optional<Product> product = productRepo.findById(name);
 		
@@ -168,7 +168,7 @@ public class ServiceData {
 			try {
 				productRepo.deleteById(name);
 				productRepo.save(new Product(newName,new HashMap<String,String>(),
-						new ArrayList<Survey>(),true,null));
+						days, new ArrayList<Survey>(),true,null));
 				
 				//Deactivating all other products of same survey
 				

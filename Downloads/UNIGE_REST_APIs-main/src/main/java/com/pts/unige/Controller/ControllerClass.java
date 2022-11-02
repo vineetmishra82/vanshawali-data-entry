@@ -98,7 +98,7 @@ public class ControllerClass {
 	
 
 	@PostMapping("/createProduct")
-	public boolean createProduct(@RequestParam String name) 
+	public boolean createProduct(@RequestParam String name,@RequestParam int days) 
 	{
 		Map<String, String> features = new HashMap<>();
 		
@@ -110,15 +110,16 @@ public class ControllerClass {
 		
 		
 		return service.createProduct(new Product(name,features,
-				new ArrayList<Survey>(),true,null));
+				days,new ArrayList<Survey>(), true,null));
 	}
 	
 
 	@PostMapping("/updateProduct")
-	public boolean updateProduct(@RequestParam String name,@RequestParam String newName) 
+	public boolean updateProduct(@RequestParam String name,@RequestParam String newName,
+			@RequestParam int days) 
 	{
 		
-		return service.updateProduct(name,newName);
+		return service.updateProduct(name,newName,days);
 	}
 	
 
