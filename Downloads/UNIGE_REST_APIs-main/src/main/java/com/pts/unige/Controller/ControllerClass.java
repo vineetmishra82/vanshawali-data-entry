@@ -108,7 +108,9 @@ public class ControllerClass {
 		features.put("Purchase Type", "");
 		features.put("Price(in $ approx)", "");
 		
-		//With no of days
+		//With no of days in trhe repositrorty
+		
+		log.info("checking for git");
 		
 		return service.createProduct(new Product(name,features,
 				days,new ArrayList<Survey>(), true,null));
@@ -119,6 +121,7 @@ public class ControllerClass {
 	public boolean updateProduct(@RequestParam String name,@RequestParam String newName,
 			@RequestParam int days) 
 	{
+		//This is for service update
 		
 		return service.updateProduct(name,newName,days);
 	}
