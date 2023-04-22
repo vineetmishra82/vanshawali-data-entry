@@ -141,6 +141,22 @@ function Home_Page() {
 
     }
 
+const getRelationShipName = (element)=> {
+
+    var values = element.nearestRelative.split(" id - ");
+
+
+    if(element.relationship === "Father")
+    {
+        return " पिता - "+values[0];
+    }
+    else if(element.relationship === "Sibling"){
+        return " सहोदर - "+values[0];
+    }
+    else{
+        return "";
+    }
+}
   
   
     return(
@@ -157,7 +173,7 @@ function Home_Page() {
                         vyaktiList.length > 0 &&
                         vyaktiList.map((gname, key) => {
                             return (
-                                <option key={gname.vyaktiId} > {gname.name+" पिता - "+gname.fatherName}</option>
+                                <option key={gname.vyaktiId} > {gname.name+ getRelationShipName(gname)}</option>
                             );
                         })}
 
