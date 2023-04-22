@@ -51,12 +51,12 @@ const handleSubmit = (e) => {
         
           <div className="input-container">
             <label className="labelText">Username </label>
-            <input className="labelText" type="text" 
+            <input id='userName' className="labelText" type="text" 
             onChange={(e) => setUserName(e.target.value)} />
               </div>
           <div className="input-container">
             <label className="labelText">Password </label>
-            <input className="labelText1" type="password" onChange={(e) => setPassword(e.target.value)} />
+            <input  id='passBox' className="labelText1" type="password" onChange={(e) => setPassword(e.target.value)} />
                      </div>
           <div className="button-container" >
             <input className="labelText" class="btn btn-success" type="submit" onClick={handleSubmit} />
