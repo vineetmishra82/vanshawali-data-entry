@@ -1,6 +1,6 @@
 # voice_recognition_mo
 
-Voice Analysis for Words
+A new Flutter project.
 
 ## Getting Started
 

@@ -30,8 +30,7 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/audioSample.wav
-    - assets/serviceAccount.json
+     - assets/serviceAccount.json
 
 uses-material-design: true
 

@@ -26,12 +26,6 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
           RegisterUser.id: (context) => RegisterUser(),
         });
-
-    //routes:
-    // /LoginScreen.id : (context) => LoginScreen(),
-    // HomePage.id: (context) => HomePage(ApplicationData.mobile),
-    // RegisterUser.id: (context) => RegisterUser(),
-    //  );
   }
 }
 
